@@ -1,0 +1,23 @@
+import 'package:flutter/material.dart';
+
+/// Reusable widget for displaying loading state.
+/// UI-only widget with no business logic.
+class LoadingIndicator extends StatelessWidget {
+  const LoadingIndicator({super.key, this.message = 'Loading...'});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const CircularProgressIndicator(),
+          const SizedBox(height: 12),
+          Text(message),
+        ],
+      ),
+    );
+  }
+}
