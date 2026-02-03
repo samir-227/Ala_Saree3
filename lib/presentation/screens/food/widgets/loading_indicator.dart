@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Reusable widget for displaying loading state.
-/// UI-only widget with no business logic.
+
 class LoadingIndicator extends StatelessWidget {
   const LoadingIndicator({
     super.key,

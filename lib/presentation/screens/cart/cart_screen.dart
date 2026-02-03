@@ -8,8 +8,7 @@ import 'widgets/cart_item_card.dart';
 import 'widgets/cart_total_footer.dart';
 import 'widgets/empty_cart_widget.dart';
 
-/// Screen for displaying shopping cart.
-/// UI-only screen - all logic is in providers.
+
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 

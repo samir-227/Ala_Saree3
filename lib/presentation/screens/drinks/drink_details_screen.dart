@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mcdonald_test/components/quantity_selector.dart';
+import 'package:mcdonald_test/core/utils/app_snackbar.dart';
 import 'package:provider/provider.dart';
-import '../../../components/toggle_widget.dart';
 import '../../../domain/entities/drink.dart';
 import '../../controller/cart_provider.dart';
 import '../../controller/drinks_provider.dart';
@@ -20,45 +21,38 @@ class DrinkDetails extends StatefulWidget {
 }
 
 class _DrinkDetailsState extends State<DrinkDetails> {
-  final PageController _pageController = PageController(viewportFraction: 0.50);
+  late PageController _pageController;
   final ProductDetailsProvider _detailsProvider = ProductDetailsProvider();
   double _currentPage = 0;
   List<Drink> _drinks = [];
-  bool _initializedPage = false;
 
   @override
   void initState() {
     super.initState();
+
+    // 1. Get the list of drinks immediately (using read, not watch)
+    // We only need this ONCE to find our starting point.
+    _drinks = context.read<DrinksProvider>().drinks;
+
+    // 2. Find where to start
+    int initialIndex = _drinks.indexWhere((d) => d.id == widget.drink.id);
+    if (initialIndex == -1) initialIndex = 0;
+
+    // 3. Update our state tracker
+    _currentPage = initialIndex.toDouble();
+
+    // 4. Create the controller starting at the right place!
+    _pageController = PageController(
+      viewportFraction: 0.65,
+      initialPage: initialIndex,
+    );
+
+    // 5. Listen for future swipes
     _pageController.addListener(() {
       setState(() {
         _currentPage = _pageController.page ?? 0;
       });
     });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final drinksProvider = context.watch<DrinksProvider>();
-    _drinks = drinksProvider.drinks;
-
-    if (!_initializedPage && _drinks.isNotEmpty) {
-      final initialIndex = _drinks.indexWhere(
-        (d) => d.name == widget.drink.name,
-      );
-      final startIndex = initialIndex == -1 ? 0 : initialIndex;
-
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-        if (_pageController.hasClients && !_initializedPage) {
-          _pageController.jumpToPage(startIndex);
-          setState(() {
-            _currentPage = startIndex.toDouble();
-          });
-          _initializedPage = true;
-        }
-      });
-    }
   }
 
   @override
@@ -74,15 +68,13 @@ class _DrinkDetailsState extends State<DrinkDetails> {
     final errorMessage = _detailsProvider.validateBeforeAddToCart();
 
     if (errorMessage != null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(errorMessage)));
+      AppSnackBar.showError(context, message: errorMessage);
       return;
     }
 
     final currentIndex = _currentPage.round().clamp(0, _drinks.length - 1);
     final selectedDrink = _drinks[currentIndex];
-    final sizeLabel = _detailsProvider.selectedSizeLabel!;
+    final selectedSizeLabel = _detailsProvider.selectedSizeLabel!;
 
     final cartProduct = _detailsProvider.createCartProduct(
       id: selectedDrink.cartId,
@@ -94,13 +86,11 @@ class _DrinkDetailsState extends State<DrinkDetails> {
 
     context.read<CartProvider>().addToCart(
       product: cartProduct,
-      sizeLabel: sizeLabel,
+      sizeLabel: selectedSizeLabel,
       quantity: _detailsProvider.quantity,
     );
 
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Added to cart')));
+    AppSnackBar.showSuccess(context);
   }
 
   @override
@@ -139,7 +129,7 @@ class _DrinkDetailsState extends State<DrinkDetails> {
               drinkSize: 1.1,
               translateMultiplier: 100,
               shadowAsset: 'assets/drinks/Ellipse 2.png',
-              shadowBottomPosition: 180,
+              shadowBottomPosition: 175,
               imageHeight: 1000,
             ),
             Positioned(
@@ -151,28 +141,20 @@ class _DrinkDetailsState extends State<DrinkDetails> {
                   return Column(
                     children: [
                       SizeSelector(
-                        sizeLabels: ProductDetailsProvider.sizeLabels,
+                        sizeLabels: ProductDetailsProvider.drinkSizeLabels,
                         selectedIndex: provider.selectedSizeIndex,
                         onSizeSelected: provider.selectSize,
                         useIcon: true,
                       ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          Expanded(child: DrinkToggle()),
-                          const SizedBox(width: 40),
-                          Expanded(
-                            child: QuantitySelector(
-                              onChanged: provider.setQuantity,
-                            ),
-                          ),
-                        ],
+                      QuantitySelector(
+                        quantity: provider.quantity,
+                        onChanged: provider.setQuantity,
                       ),
-                      const SizedBox(height: 16),
                       AddToCartButton(
                         onPressed: _onAddToCart,
                         enabled: provider.canAddToCart,
                       ),
+                      const SizedBox(height: 16),
                     ],
                   );
                 },

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../../core/routing/app_router.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../controller/cart_provider.dart';
 
 class PaymentSuccessDialog extends StatelessWidget {
   const PaymentSuccessDialog({super.key});
@@ -27,10 +25,18 @@ class PaymentSuccessDialog extends StatelessWidget {
                 const SizedBox(width: 24),
                 Text(
                   'PAYMENT SUCCESS',
-                  style: TextStyle(fontSize: 14, letterSpacing: 2, color: colorScheme.onSurface),
+                  style: TextStyle(
+                    fontSize: 14,
+                    letterSpacing: 2,
+                    color: colorScheme.onSurface,
+                  ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.close, size: 18, color: colorScheme.onSurface),
+                  icon: Icon(
+                    Icons.close,
+                    size: 18,
+                    color: colorScheme.onSurface,
+                  ),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ],
@@ -39,13 +45,21 @@ class PaymentSuccessDialog extends StatelessWidget {
             CircleAvatar(
               radius: 28,
               backgroundColor: AppColors.successBackground,
-              child: Icon(Icons.check, color: AppColors.successForeground, size: 28),
+              child: Icon(
+                Icons.check,
+                color: AppColors.successForeground,
+                size: 28,
+              ),
             ),
             const SizedBox(height: 24),
             Center(
               child: Text(
                 'Your payment was success',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: colorScheme.onSurface),
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: colorScheme.onSurface,
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -53,24 +67,39 @@ class PaymentSuccessDialog extends StatelessWidget {
             Center(
               child: Text(
                 'Payment ID 15263541',
-                style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
             const SizedBox(height: 16),
             const Divider(),
             const SizedBox(height: 12),
             Center(
-              child: Text('Rate your purchase', style: TextStyle(fontSize: 13, color: colorScheme.onSurface)),
+              child: Text(
+                'Rate your purchase',
+                style: TextStyle(fontSize: 13, color: colorScheme.onSurface),
+              ),
             ),
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.sentiment_dissatisfied_outlined, color: colorScheme.onSurfaceVariant),
+                Icon(
+                  Icons.sentiment_dissatisfied_outlined,
+                  color: colorScheme.onSurfaceVariant,
+                ),
                 const SizedBox(width: 16),
-                Icon(Icons.sentiment_neutral_outlined, color: colorScheme.onSurfaceVariant),
+                Icon(
+                  Icons.sentiment_neutral_outlined,
+                  color: colorScheme.onSurfaceVariant,
+                ),
                 const SizedBox(width: 16),
-                Icon(Icons.sentiment_satisfied_outlined, color: colorScheme.onSurfaceVariant),
+                Icon(
+                  Icons.sentiment_satisfied_outlined,
+                  color: colorScheme.onSurfaceVariant,
+                ),
               ],
             ),
             const SizedBox(height: 24),
@@ -79,9 +108,9 @@ class PaymentSuccessDialog extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      context.read<CartProvider>().clear();
                       Navigator.of(context).pop();
-                      context.go(AppRouter.main);
+                      // Navigate to main screen with orders tab selected
+                      context.go('${AppRouter.main}?tab=orders');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: colorScheme.inverseSurface,
@@ -97,7 +126,6 @@ class PaymentSuccessDialog extends StatelessWidget {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () {
-                      context.read<CartProvider>().clear();
                       Navigator.of(context).pop();
                       context.go(AppRouter.main);
                     },
@@ -110,7 +138,10 @@ class PaymentSuccessDialog extends StatelessWidget {
                     ),
                     child: Text(
                       'BACK TO HOME',
-                      style: TextStyle(fontSize: 13, color: colorScheme.onSurface),
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: colorScheme.onSurface,
+                      ),
                     ),
                   ),
                 ),

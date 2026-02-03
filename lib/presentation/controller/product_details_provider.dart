@@ -3,9 +3,20 @@ import 'package:flutter/foundation.dart';
 import '../../domain/entities/cart_product.dart';
 
 /// Provider for managing product details state (size, quantity, etc.).
-/// Business logic lives here, not in UI widgets.
 class ProductDetailsProvider extends ChangeNotifier {
-  static const List<String> sizeLabels = ['S', 'M', 'L', 'XL'];
+  // Size labels for drinks
+  static const List<String> drinkSizeLabels = ['S', 'M', 'L'];
+  // Size labels for food
+  static const List<String> foodSizeLabels = [
+    'Regular',
+    'Large',
+    'Extra Large',
+  ];
+
+  final List<String> sizeLabels;
+
+  ProductDetailsProvider({List<String>? sizeLabels})
+    : sizeLabels = sizeLabels ?? drinkSizeLabels;
 
   int? _selectedSizeIndex;
   int? get selectedSizeIndex => _selectedSizeIndex;
@@ -16,8 +27,8 @@ class ProductDetailsProvider extends ChangeNotifier {
   int _quantity = 1;
   int get quantity => _quantity;
 
-  double _currentPage = 0;
-  double get currentPage => _currentPage;
+  // double _currentPage = 0;
+  // double get currentPage => _currentPage;
 
   void selectSize(int index) {
     if (index >= 0 && index < sizeLabels.length) {
@@ -45,19 +56,17 @@ class ProductDetailsProvider extends ChangeNotifier {
     }
   }
 
-  void setCurrentPage(double page) {
-    _currentPage = page;
-    notifyListeners();
-  }
+  // void setCurrentPage(double page) {
+  //   _currentPage = page;
+  //   notifyListeners();
+  // }
 
   bool get canAddToCart => _selectedSizeIndex != null;
 
   /// Validates that a size is selected before adding to cart.
   /// Returns error message if validation fails, null if valid.
   String? validateBeforeAddToCart() {
-    if (_selectedSizeIndex == null ||
-        _selectedSizeIndex! < 0 ||
-        _selectedSizeIndex! >= sizeLabels.length) {
+    if (_selectedSizeIndex == null) {
       return 'Please select a size';
     }
     return null;
@@ -83,7 +92,7 @@ class ProductDetailsProvider extends ChangeNotifier {
   void reset() {
     _selectedSizeIndex = null;
     _quantity = 1;
-    _currentPage = 0;
+    // _currentPage = 0;
     notifyListeners();
   }
 }

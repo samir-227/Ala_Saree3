@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mcdonald_test/components/quantity_selector.dart';
+import 'package:mcdonald_test/core/utils/app_snackbar.dart';
 import 'package:provider/provider.dart';
 
-import '../../../components/toggle_widget.dart';
 import '../../../domain/entities/food.dart';
 import '../../controller/cart_provider.dart';
 import '../../controller/foods_provider.dart';
@@ -21,43 +22,31 @@ class FoodDetailsScreen extends StatefulWidget {
 }
 
 class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
-  final PageController _pageController = PageController(viewportFraction: 0.55);
-  final ProductDetailsProvider _detailsProvider = ProductDetailsProvider();
+  late PageController _pageController;
+  final ProductDetailsProvider _detailsProvider = ProductDetailsProvider(
+    sizeLabels: ProductDetailsProvider.foodSizeLabels,
+  );
   double _currentPage = 0;
   List<Food> _foods = [];
-  bool _initializedPage = false;
 
   @override
   void initState() {
     super.initState();
+    _foods = context.read<FoodsProvider>().foods;
+
+    int initialIndex = _foods.indexWhere((f) => f.id == widget.food.id);
+    if (initialIndex != -1) initialIndex = 0;
+
+    _currentPage = initialIndex.toDouble();
+    _pageController = PageController(
+      viewportFraction: .65,
+      initialPage: initialIndex,
+    );
     _pageController.addListener(() {
       setState(() {
         _currentPage = _pageController.page ?? 0;
       });
     });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final foodsProvider = context.watch<FoodsProvider>();
-    _foods = foodsProvider.foods;
-
-    if (!_initializedPage && _foods.isNotEmpty) {
-      final initialIndex = _foods.indexWhere((f) => f.name == widget.food.name);
-      final startIndex = initialIndex == -1 ? 0 : initialIndex;
-
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-        if (_pageController.hasClients && !_initializedPage) {
-          _pageController.jumpToPage(startIndex);
-          setState(() {
-            _currentPage = startIndex.toDouble();
-          });
-          _initializedPage = true;
-        }
-      });
-    }
   }
 
   @override
@@ -72,9 +61,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
 
     final errorMessage = _detailsProvider.validateBeforeAddToCart();
     if (errorMessage != null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(errorMessage)));
+      AppSnackBar.showError(context, message: errorMessage);
       return;
     }
 
@@ -96,9 +83,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
       quantity: _detailsProvider.quantity,
     );
 
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Added to cart')));
+    AppSnackBar.showSuccess(context);
   }
 
   @override
@@ -136,8 +121,8 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
               currentPage: _currentPage,
               viewportFraction: 0.55,
               scaleBase: 1.1,
-              translateMultiplier: 100,
-              shadowHeight: 140,
+              translateMultiplier: 65,
+              shadowHeight: 185,
               shadowMargin: const EdgeInsets.symmetric(horizontal: 90),
             ),
             Positioned(
@@ -145,31 +130,23 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
               right: 20,
               bottom: 10,
               child: Consumer<ProductDetailsProvider>(
-                builder: (context, provider, _) {
+                builder: (context, detailsProvider, _) {
                   return Column(
                     children: [
                       SizeSelector(
-                        sizeLabels: ProductDetailsProvider.sizeLabels,
-                        selectedIndex: provider.selectedSizeIndex,
-                        onSizeSelected: provider.selectSize,
+                        sizeLabels: ProductDetailsProvider.foodSizeLabels,
+                        selectedIndex: detailsProvider.selectedSizeIndex,
+                        onSizeSelected: detailsProvider.selectSize,
                       ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Expanded(child: DrinkToggle()),
-                          const SizedBox(width: 40),
-                          Expanded(
-                            child: QuantitySelector(
-                              onChanged: provider.setQuantity,
-                            ),
-                          ),
-                        ],
+                      QuantitySelector(
+                        quantity: detailsProvider.quantity,
+                        onChanged: detailsProvider.setQuantity,
                       ),
-                      const SizedBox(height: 16),
                       AddToCartButton(
                         onPressed: _onAddToCart,
-                        enabled: provider.canAddToCart,
+                        enabled: detailsProvider.canAddToCart,
                       ),
+                      const SizedBox(height: 16),
                     ],
                   );
                 },

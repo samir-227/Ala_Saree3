@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Reusable widget for displaying product header (name, description/title, price).
-/// UI-only widget with no business logic.
+
 class ProductHeader extends StatelessWidget {
   const ProductHeader({
     super.key,

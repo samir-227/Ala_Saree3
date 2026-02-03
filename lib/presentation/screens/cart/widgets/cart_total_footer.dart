@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Reusable widget for displaying cart total and checkout button.
-/// UI-only widget with no business logic.
+
 class CartTotalFooter extends StatelessWidget {
   const CartTotalFooter({
     super.key,

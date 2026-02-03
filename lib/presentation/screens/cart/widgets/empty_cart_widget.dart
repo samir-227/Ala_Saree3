@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Reusable widget for displaying empty cart state.
-/// UI-only widget with no business logic.
+
 class EmptyCartWidget extends StatelessWidget {
   const EmptyCartWidget({
     super.key,
@@ -22,7 +21,7 @@ class EmptyCartWidget extends StatelessWidget {
           Icon(
             Icons.shopping_bag_outlined,
             size: 64,
-            color: colorScheme.onSurfaceVariant,
+            color: colorScheme.tertiary,
           ),
           const SizedBox(height: 12),
           Text(

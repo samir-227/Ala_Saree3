@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../../../domain/entities/cart_item.dart';
 
-/// Reusable widget for displaying a cart item.
-/// UI-only widget with no business logic.
+
 class CartItemCard extends StatelessWidget {
-  const CartItemCard({
-    super.key,
-    required this.item,
-    required this.onRemove,
-  });
+  const CartItemCard({super.key, required this.item, required this.onRemove});
 
   final CartItem item;
   final VoidCallback onRemove;
@@ -20,9 +15,7 @@ class CartItemCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         elevation: 2,
         child: Padding(
           padding: const EdgeInsets.all(12),

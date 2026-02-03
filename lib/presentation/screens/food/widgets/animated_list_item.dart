@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Reusable widget for animated list items with scroll-based animations.
-/// UI-only widget with no business logic.
+
 class AnimatedListItem extends StatelessWidget {
   const AnimatedListItem({
     super.key,

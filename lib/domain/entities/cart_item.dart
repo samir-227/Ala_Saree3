@@ -1,6 +1,5 @@
 import 'cart_product.dart';
 
-
 class CartItem {
   CartItem({
     required this.product,

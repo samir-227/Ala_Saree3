@@ -69,7 +69,9 @@ class ProductImageCarousel extends StatelessWidget {
                           BoxShadow(
                             blurRadius: 40,
                             spreadRadius: 4,
-                            color: Theme.of(context).colorScheme.scrim.withValues(alpha: 0.38),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.scrim.withValues(alpha: 0.38),
                           ),
                         ],
                       ),

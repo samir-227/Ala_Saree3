@@ -4,7 +4,6 @@ import '../../domain/entities/cart_item.dart';
 import '../../domain/entities/cart_product.dart';
 
 /// Provider for managing cart state.
-/// Business logic lives here, not in UI widgets.
 class CartProvider extends ChangeNotifier {
   final List<CartItem> _items = [];
 

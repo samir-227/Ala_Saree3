@@ -9,8 +9,8 @@ class DrinksRepositoryImpl implements domain.DrinksRepository {
   final MockDrinksDataSource _dataSource;
 
   @override
-  List<Drink> getDrinks() {
-    return _dataSource.getDrinks().map((model) => model.toEntity()).toList();
+  Future<List<Drink>> getDrinks() async {
+    return await _dataSource.getDrinks().map((model) => model.toEntity()).toList();
   }
 }
 

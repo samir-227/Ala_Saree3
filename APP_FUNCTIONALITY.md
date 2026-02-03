@@ -1,10 +1,10 @@
-# Coffee App Functionality
+# AlaSaree3 App Functionality
 
-This document provides a detailed overview of the Coffee App's functionality, architecture, and implementation.
+This document provides a detailed overview of the AlaSaree3 App's functionality, architecture, and implementation.
 
 ## App Description
 
-The Coffee App is a mobile application built with Flutter that allows users to browse and order coffee and food items. The app provides a smooth and intuitive user experience, with a clean and modern UI. It features a bottom navigation bar for easy switching between the drinks and food menus, a shopping cart, and a checkout process.
+The AlaSaree3 App is a mobile application built with Flutter that allows users to browse and order drink and food items. The app provides a smooth and intuitive user experience, with a clean and modern UI. It features a bottom navigation bar for easy switching between the drinks and food menus, a shopping cart, and a checkout process.
 
 ## Key Features
 

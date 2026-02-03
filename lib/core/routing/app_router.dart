@@ -11,6 +11,8 @@ import '../../presentation/screens/checkout/checkout_screen.dart';
 import '../../presentation/screens/drinks/drink_details_screen.dart';
 import '../../presentation/screens/food/food_details_screen.dart';
 import '../../presentation/screens/main_screen/main_screen.dart';
+import '../../presentation/screens/orders/orders_screen.dart';
+import '../../presentation/screens/orders/order_details_screen.dart';
 
 /// Centralized app routing using go_router.
 class AppRouter {
@@ -23,22 +25,30 @@ class AppRouter {
   static const addAddress = '/checkout/add-address';
   static const drinkDetails = '/drinks/details';
   static const foodDetails = '/foods/details';
+  static const orders = '/orders';
+  static const orderDetails = '/order_details';
 
   static final GoRouter router = GoRouter(
     initialLocation: splash,
     routes: [
-      GoRoute(
-        path: splash,
-        builder: (context, state) => const SplashScreen(),
-      ),
+      GoRoute(path: splash, builder: (context, state) => const SplashScreen()),
       GoRoute(
         path: main,
-        builder: (context, state) => const MainScreen(),
+        builder: (context, state) {
+          // Check for tab query parameter (tab=orders, tab=drinks, tab=food)
+          final tab = state.uri.queryParameters['tab'];
+          int? initialTabIndex;
+          if (tab == 'orders') {
+            initialTabIndex = 2;
+          } else if (tab == 'food') {
+            initialTabIndex = 1;
+          } else if (tab == 'drinks') {
+            initialTabIndex = 0;
+          }
+          return MainScreen(initialTabIndex: initialTabIndex);
+        },
       ),
-      GoRoute(
-        path: cart,
-        builder: (context, state) => const CartScreen(),
-      ),
+      GoRoute(path: cart, builder: (context, state) => const CartScreen()),
       GoRoute(
         path: checkout,
         builder: (context, state) => const CheckoutScreen(),
@@ -65,12 +75,18 @@ class AppRouter {
           return FoodDetailsScreen(food: food);
         },
       ),
-    ],
-    errorBuilder: (context, state) => Scaffold(
-      body: Center(
-        child: Text('Route not found: ${state.uri}'),
+      GoRoute(path: orders, builder: (context, state) => const OrdersScreen()),
+      GoRoute(
+        path: '$orderDetails/:id',
+        builder: (context, state) {
+          final orderId = state.pathParameters['id']!;
+          return OrderDetailsScreen(orderId: orderId);
+        },
       ),
-    ),
+    ],
+    errorBuilder:
+        (context, state) => Scaffold(
+          body: Center(child: Text('Route not found: ${state.uri}')),
+        ),
   );
 }
-

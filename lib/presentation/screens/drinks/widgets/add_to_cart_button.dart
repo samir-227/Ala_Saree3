@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Reusable widget for the add to cart button.
-/// UI-only widget with no business logic.
+
 class AddToCartButton extends StatelessWidget {
   const AddToCartButton({
     super.key,

@@ -5,9 +5,11 @@ import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'data/repositories/drinks_repository.dart';
 import 'data/repositories/foods_repository.dart';
+import 'data/repositories/order_repository.dart';
 import 'presentation/controller/cart_provider.dart';
 import 'presentation/controller/drinks_provider.dart';
 import 'presentation/controller/foods_provider.dart';
+import 'presentation/controller/order_provider.dart';
 
 void main() {
   runApp(const AlaSaree3());
@@ -21,6 +23,7 @@ class AlaSaree3 extends StatelessWidget {
     // Dependency injection: Create repository implementations
     final drinksRepository = DrinksRepositoryImpl();
     final foodsRepository = FoodsRepositoryImpl();
+    final orderRepository = OrderRepositoryImpl();
 
     return MultiProvider(
       providers: [
@@ -33,11 +36,14 @@ class AlaSaree3 extends StatelessWidget {
           create:
               (_) => FoodsProvider(repository: foodsRepository)..loadFoods(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => OrderProvider(repository: orderRepository),
+        ),
       ],
       child: MaterialApp.router(
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
-        themeMode: ThemeMode.light,
+        themeMode: ThemeMode.light, 
         debugShowCheckedModeBanner: false,
         title: 'Ala Saree3',
         routerConfig: AppRouter.router,

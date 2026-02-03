@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-/// Reusable widget for selecting product size.
-/// UI-only widget with no business logic.
 class SizeSelector extends StatelessWidget {
   const SizeSelector({
     super.key,
@@ -26,45 +24,46 @@ class SizeSelector extends StatelessWidget {
         final isSelected = selectedIndex == index;
         return GestureDetector(
           onTap: () => onSizeSelected(index),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: useIcon ? const EdgeInsets.all(11) : null,
-                width: useIcon ? null : 44,
-                height: 44,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: isSelected ? colorScheme.tertiary : colorScheme.surface,
-                  border: Border.all(
-                    color: isSelected ? colorScheme.tertiary : colorScheme.onSurface,
-                  ),
-                ),
-                child: useIcon
+          child: Container(
+            padding:
+                useIcon
+                    ? const EdgeInsets.all(11)
+                    : const EdgeInsets.symmetric(horizontal: 8),
+            constraints: useIcon ? null : const BoxConstraints(minWidth: 44),
+            height: 44,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              shape: useIcon ? BoxShape.circle : BoxShape.rectangle,
+              borderRadius: useIcon ? null : BorderRadius.circular(22),
+              color: isSelected ? colorScheme.tertiary : colorScheme.surface,
+              border: Border.all(
+                color:
+                    isSelected ? colorScheme.tertiary : colorScheme.onSurface,
+              ),
+            ),
+            child:
+                useIcon
                     ? SvgPicture.asset(
-                        'assets/Vector.svg',
-                        color: isSelected ? colorScheme.onTertiary : colorScheme.onSurface,
-                      )
-                    : Text(
+                      'assets/Vector.svg',
+                      color:
+                          isSelected
+                              ? colorScheme.onTertiary
+                              : colorScheme.onSurface,
+                    )
+                    : FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
                         sizeLabels[index],
                         style: TextStyle(
                           fontWeight:
                               isSelected ? FontWeight.bold : FontWeight.w500,
-                          color: isSelected ? colorScheme.onTertiary : colorScheme.onSurface,
+                          color:
+                              isSelected
+                                  ? colorScheme.onTertiary
+                                  : colorScheme.onSurface,
                         ),
                       ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                sizeLabels[index],
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w400,
-                  color: isSelected ? colorScheme.tertiary : colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ],
+                    ),
           ),
         );
       }),
