@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mcdonald_test/domain/entities/drink_filters.dart';
+import 'package:ala_saree3/domain/entities/drink_filters.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/routing/app_router.dart';

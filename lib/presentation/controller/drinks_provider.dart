@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:mcdonald_test/domain/entities/drink_filters.dart';
+import 'package:ala_saree3/domain/entities/drink_filters.dart';
 
 import '../../domain/entities/drink.dart';
 import '../../domain/repositories/drinks_repository.dart';

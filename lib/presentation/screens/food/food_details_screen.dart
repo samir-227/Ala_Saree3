@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mcdonald_test/components/quantity_selector.dart';
-import 'package:mcdonald_test/core/utils/app_snackbar.dart';
+import 'package:ala_saree3/components/quantity_selector.dart';
+import 'package:ala_saree3/core/utils/app_snackbar.dart';
 import 'package:provider/provider.dart';
 
 import '../../../domain/entities/food.dart';

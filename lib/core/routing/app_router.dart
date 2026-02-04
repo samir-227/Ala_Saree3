@@ -1,4 +1,3 @@
-import '../../presentation/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,7 +16,6 @@ import '../../presentation/screens/orders/order_details_screen.dart';
 /// Centralized app routing using go_router.
 class AppRouter {
   AppRouter._();
-  static const splash = '/';
   static const main = '/main';
   static const cart = '/cart';
   static const checkout = '/checkout';
@@ -29,9 +27,8 @@ class AppRouter {
   static const orderDetails = '/order_details';
 
   static final GoRouter router = GoRouter(
-    initialLocation: splash,
+    initialLocation: main,
     routes: [
-      GoRoute(path: splash, builder: (context, state) => const SplashScreen()),
       GoRoute(
         path: main,
         builder: (context, state) {
