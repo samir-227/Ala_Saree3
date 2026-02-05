@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
-
-class AddToCartButton extends StatelessWidget {
-  const AddToCartButton({
+class AppButton extends StatelessWidget {
+  const AppButton({
     super.key,
     required this.onPressed,
     this.enabled = true,
+    required this.text,
   });
 
   final VoidCallback onPressed;
+  final String text;
   final bool enabled;
 
   @override
@@ -16,22 +17,19 @@ class AddToCartButton extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     return SizedBox(
       width: double.infinity,
-      child: ElevatedButton(
+      child: FilledButton(
         onPressed: enabled ? onPressed : null,
-        style: ElevatedButton.styleFrom(
+        style: FilledButton.styleFrom(
           backgroundColor: colorScheme.tertiary,
           foregroundColor: colorScheme.onTertiary,
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 14),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(12),
           ),
         ),
-        child: const Text(
-          'Add to Cart',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
+        child: Text(
+          text,
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
         ),
       ),
     );

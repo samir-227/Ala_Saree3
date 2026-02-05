@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
-class FoodCard extends StatelessWidget {
-  const FoodCard({
+class ProductCard extends StatelessWidget {
+  const ProductCard({
     super.key,
+    required this.id,
     required this.image,
     required this.name,
-    required this.description,
+    required this.title,
     required this.price,
   });
-
+  final String id;
   final String image;
   final String name;
-  final String description;
+  final String title;
   final String price;
 
   @override
@@ -20,7 +21,7 @@ class FoodCard extends StatelessWidget {
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+          padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 16),
           child: Card(
             elevation: 3,
             shape: RoundedRectangleBorder(
@@ -41,8 +42,8 @@ class FoodCard extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             children: [
               Container(
-                width: 90,
-                height: 24,
+                width: 70,
+                height: 20,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
                   boxShadow: [
@@ -59,41 +60,45 @@ class FoodCard extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: 70,
+          top: 50,
           bottom: 0,
-          left: 150,
+          left: 110,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                name,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: colorScheme.onSurface,
-                ),
-              ),
-              const SizedBox(height: 4),
-              SizedBox(
-                width: 150,
-                child: Text(
-                  description,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 13,
-                    color: colorScheme.onSurfaceVariant,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: colorScheme.onSurface,
+                    ),
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              Text(
-                '£$price',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: colorScheme.tertiary,
-                ),
+                  SizedBox(
+                    width: 200,
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '£$price',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: colorScheme.tertiary,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

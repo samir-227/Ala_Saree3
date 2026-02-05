@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-
-class MenuHeader extends StatelessWidget {
-  const MenuHeader({super.key, this.title = 'Menu', this.trailing});
+class AppHeader extends StatelessWidget {
+  const AppHeader({super.key, required this.title, this.trailing});
 
   final String title;
   final Widget? trailing;
@@ -10,7 +9,7 @@ class MenuHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24,),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

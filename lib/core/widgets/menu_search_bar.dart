@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 /// Search bar for menu screens (drinks/food).
-/// Parent provides value and onChanged; [value] is synced into the field.
 class MenuSearchBar extends StatefulWidget {
   const MenuSearchBar({
     super.key,
@@ -46,26 +45,48 @@ class _MenuSearchBarState extends State<MenuSearchBar> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: TextField(
         controller: _controller,
-        onChanged: widget.onChanged,
+        onChanged: (text) {
+          setState(() {}); 
+          widget.onChanged(text);
+        },
+        style: const TextStyle(fontSize: 15),
         decoration: InputDecoration(
           hintText: widget.hint,
-          prefixIcon: Icon(
-            Icons.search,
-            color: colorScheme.onSurfaceVariant,
-            size: 22,
+          hintStyle: TextStyle(
+            color: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
           ),
-          filled: true,
-          fillColor: colorScheme.surfaceContainerLow,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-            borderSide: BorderSide.none,
+          prefixIcon: Icon(
+            Icons.search_rounded,
+            color: colorScheme.primary,
+            size: 20,
+          ),
+          suffixIcon:
+              _controller.text.isNotEmpty
+                  ? IconButton(
+                    icon: const Icon(Icons.close_rounded, size: 16),
+                    onPressed: () {
+                      _controller.clear();
+                      widget.onChanged('');
+                      setState(() {});
+                    },
+                  )
+                  : null,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(
+              color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(color: colorScheme.primary, width: 1.5),
           ),
           contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 14,
+            horizontal: 8,
+            vertical: 8,
           ),
         ),
       ),
