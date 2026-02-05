@@ -1,5 +1,5 @@
-import '../entities/food.dart';
+import '../entities/product.dart';
 
 abstract class FoodsRepository {
-  List<Food> getFoods();
+  List<ProductEntity> getFoods();
 }

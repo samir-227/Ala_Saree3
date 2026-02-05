@@ -1,6 +1,6 @@
 /// Filter state for drinks menu (search + price/category/size).
-class DrinkFilters {
-  const DrinkFilters({
+class ProductFilters {
+  const ProductFilters({
     this.searchQuery = '',
     this.priceMin,
     this.priceMax,
@@ -14,14 +14,14 @@ class DrinkFilters {
   final String? category;
   final String? size;
 
-  DrinkFilters copyWith({
+  ProductFilters copyWith({
     String? searchQuery,
     double? priceMin,
     double? priceMax,
     String? category,
     String? size,
   }) {
-    return DrinkFilters(
+    return ProductFilters(
       searchQuery: searchQuery ?? this.searchQuery,
       priceMin: priceMin ?? this.priceMin,
       priceMax: priceMax ?? this.priceMax,

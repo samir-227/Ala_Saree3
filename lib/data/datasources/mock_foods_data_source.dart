@@ -1,9 +1,10 @@
-import '../models/food_model.dart';
+import 'package:ala_saree3/data/models/product_model.dart';
+import 'package:ala_saree3/domain/entities/product.dart';
 
 class MockFoodsDataSource {
-  List<FoodModel> getFoods() {
+  List<Product> getFoods() {
     return [
-      FoodModel(  
+      const Product(
         id: '1',
         image: 'assets/foods/burger-2.png',
         name: 'Classic Burger',
@@ -11,8 +12,9 @@ class MockFoodsDataSource {
         price: '12.99',
         category: 'Burgers',
         availableSizes: ['Large'],
+        type: ProductType.food,
       ),
-      FoodModel(
+      const Product(
         id: '2',
         image: 'assets/foods/burger-3.png',
         name: 'Bacon Burger',
@@ -20,8 +22,9 @@ class MockFoodsDataSource {
         price: '14.50',
         category: 'Burgers',
         availableSizes: ['Regular'],
+        type: ProductType.food,
       ),
-      FoodModel(
+      const Product(
         id: '3',
         image: 'assets/foods/burger-1.png',
         name: 'Spicy Burger',
@@ -29,8 +32,9 @@ class MockFoodsDataSource {
         price: '13.75',
         category: 'Burgers',
         availableSizes: ['Extra Large'],
+        type: ProductType.food,
       ),
-      FoodModel(
+      const Product(
         id: '4',
         image: 'assets/foods/burger-2.png',
         name: 'Classic Burger',
@@ -38,8 +42,9 @@ class MockFoodsDataSource {
         price: '12.99',
         category: 'Burgers',
         availableSizes: ['Regular', 'Large', 'Extra Large'],
+        type: ProductType.food,
       ),
-      FoodModel(
+      const Product(
         id: '5',
         image: 'assets/foods/burger-1.png',
         name: 'Bacon Burger',
@@ -47,8 +52,9 @@ class MockFoodsDataSource {
         price: '14.50',
         category: 'Burgers',
         availableSizes: ['Extra Large'],
+        type: ProductType.food,
       ),
-      FoodModel(
+      const Product(
         id: '6',
         image: 'assets/foods/burger-3.png',
         name: 'Spicy Burger',
@@ -56,8 +62,9 @@ class MockFoodsDataSource {
         price: '13.75',
         category: 'Burgers',
         availableSizes: ['Extra Large', 'Regular'],
+        type: ProductType.food,
       ),
-      FoodModel(
+      const Product(
         id: '7',
         image: 'assets/foods/burger-1.png',
         name: 'Classic Burger',
@@ -65,8 +72,9 @@ class MockFoodsDataSource {
         price: '12.99',
         category: 'Burgers',
         availableSizes: ['Large'],
+        type: ProductType.food,
       ),
-      FoodModel(
+      const Product(
         id: '8',
         image: 'assets/foods/burger-3.png',
         name: 'Bacon Burger',
@@ -74,8 +82,9 @@ class MockFoodsDataSource {
         price: '14.50',
         category: 'Burgers',
         availableSizes: ['Regular'],
+        type: ProductType.food,
       ),
-      FoodModel(
+      const Product(
         id: '9',
         image: 'assets/foods/burger-2.png',
         name: 'Spicy Burger',
@@ -83,8 +92,8 @@ class MockFoodsDataSource {
         price: '13.75',
         category: 'Burgers',
         availableSizes: ['Extra Large'],
+        type: ProductType.food,
       ),
-     
     ];
   }
 }

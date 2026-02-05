@@ -1,20 +1,20 @@
+import 'package:ala_saree3/core/widgets/app_button.dart';
+import 'package:ala_saree3/core/widgets/product_header.dart';
 import 'package:flutter/material.dart';
 import 'package:ala_saree3/components/quantity_selector.dart';
 import 'package:ala_saree3/core/utils/app_snackbar.dart';
 import 'package:provider/provider.dart';
-import '../../../domain/entities/drink.dart';
+import '../../../domain/entities/product.dart';
 import '../../controller/cart_provider.dart';
 import '../../controller/drinks_provider.dart';
 import '../../controller/product_details_provider.dart';
-import 'widgets/add_to_cart_button.dart';
-import 'widgets/product_header.dart';
 import 'widgets/product_image_carousel.dart';
 import 'widgets/size_selector.dart';
 
 class DrinkDetails extends StatefulWidget {
   const DrinkDetails({super.key, required this.drink});
 
-  final Drink drink;
+  final ProductEntity drink;
 
   @override
   State<DrinkDetails> createState() => _DrinkDetailsState();
@@ -24,7 +24,7 @@ class _DrinkDetailsState extends State<DrinkDetails> {
   late PageController _pageController;
   final ProductDetailsProvider _detailsProvider = ProductDetailsProvider();
   double _currentPage = 0;
-  List<Drink> _drinks = [];
+  List<ProductEntity> _drinks = [];
 
   @override
   void initState() {
@@ -109,7 +109,7 @@ class _DrinkDetailsState extends State<DrinkDetails> {
     return ChangeNotifierProvider.value(
       value: _detailsProvider,
       child: Scaffold(
-        backgroundColor: colorScheme.surface,
+        // backgroundColor: colorScheme.surface,
         body: Stack(
           children: [
             Positioned(
@@ -118,7 +118,7 @@ class _DrinkDetailsState extends State<DrinkDetails> {
               right: 20,
               child: ProductHeader(
                 name: currentDrink.name,
-                title: currentDrink.title,
+                title: currentDrink.description,
                 price: currentDrink.price,
               ),
             ),
@@ -150,7 +150,8 @@ class _DrinkDetailsState extends State<DrinkDetails> {
                         quantity: provider.quantity,
                         onChanged: provider.setQuantity,
                       ),
-                      AddToCartButton(
+                      AppButton(
+                        text: 'Add to Cart',
                         onPressed: _onAddToCart,
                         enabled: provider.canAddToCart,
                       ),

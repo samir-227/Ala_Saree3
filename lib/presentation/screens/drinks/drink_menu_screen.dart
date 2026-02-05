@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ala_saree3/domain/entities/drink_filters.dart';
+import 'package:ala_saree3/domain/entities/product_filters.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/routing/app_router.dart';
-import '../../../core/widgets/drink_card.dart';
+import '../../../core/widgets/product_card.dart';
 import '../../../core/widgets/filter_bottom_sheet.dart';
 import '../../../core/widgets/menu_search_bar.dart';
 import '../../controller/drinks_provider.dart';
 import '../../controller/product_details_provider.dart';
-import 'widgets/animated_list_item.dart';
-import 'widgets/loading_indicator.dart';
-import 'widgets/menu_header.dart';
+import '../../../core/widgets/animated_list_item.dart';
+import '../../../core/widgets/loading_indicator.dart';
+import '../../../core/widgets/app_header.dart';
 
 class DrinksMenuScreen extends StatefulWidget {
   const DrinksMenuScreen({super.key});
@@ -49,7 +49,7 @@ class _DrinksMenuScreenState extends State<DrinksMenuScreen> {
             maxPrice: _maxPrice,
             onApply: (result) {
               provider.setFilters(
-                DrinkFilters(
+                ProductFilters(
                   searchQuery: f.searchQuery,
                   priceMin: result.priceMin,
                   priceMax: result.priceMax,
@@ -68,13 +68,11 @@ class _DrinksMenuScreenState extends State<DrinksMenuScreen> {
     final drinks = drinksProvider.filteredDrinks;
     final filters = drinksProvider.filters;
 
-    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: colorScheme.surface,
       body: SafeArea(
         child: Column(
           children: [
-            MenuHeader(
+            AppHeader(
               title: 'Drinks',
               trailing: IconButton(
                 onPressed: () => _openFilterSheet(context),
@@ -90,10 +88,9 @@ class _DrinksMenuScreenState extends State<DrinksMenuScreen> {
             Expanded(
               child:
                   drinksProvider.isLoading && drinksProvider.drinks.isEmpty
-                      ? const LoadingIndicator(message: 'Loading menu...')
+                      ? const LoadingIndicator()
                       : ListView.builder(
                         controller: _scrollController,
-                        padding: const EdgeInsets.only(bottom: 20),
                         itemCount: drinks.length,
                         itemBuilder: (context, index) {
                           final drink = drinks[index];
@@ -114,9 +111,9 @@ class _DrinksMenuScreenState extends State<DrinksMenuScreen> {
                               },
                               child: Hero(
                                 tag: 'drink-${drink.id}',
-                                child: DrinkCard(
-                                  id: drink.id, 
-                                  title: drink.title,
+                                child: ProductCard(
+                                  id: drink.id,
+                                  title: drink.description,
                                   name: drink.name,
                                   image: drink.image,
                                   price: drink.price,

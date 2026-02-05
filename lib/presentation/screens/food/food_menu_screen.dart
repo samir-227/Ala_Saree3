@@ -1,16 +1,16 @@
+import 'package:ala_saree3/core/widgets/animated_list_item.dart';
+import 'package:ala_saree3/core/widgets/product_card.dart';
+import 'package:ala_saree3/core/widgets/loading_indicator.dart';
+import 'package:ala_saree3/core/widgets/app_header.dart';
+import 'package:ala_saree3/domain/entities/product_filters.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
 import '../../../core/routing/app_router.dart';
-import '../../../core/widgets/food_card.dart';
 import '../../../core/widgets/filter_bottom_sheet.dart';
 import '../../../core/widgets/menu_search_bar.dart';
 import '../../controller/foods_provider.dart';
 import '../../controller/product_details_provider.dart';
-import 'widgets/animated_list_item.dart';
-import 'widgets/loading_indicator.dart';
-import 'widgets/menu_header.dart';
 
 class FoodMenuScreen extends StatefulWidget {
   const FoodMenuScreen({super.key});
@@ -42,7 +42,7 @@ class _FoodMenuScreenState extends State<FoodMenuScreen> {
             maxPrice: _maxPrice,
             onApply: (result) {
               provider.setFilters(
-                FoodFilters(
+                ProductFilters(
                   searchQuery: f.searchQuery,
                   priceMin: result.priceMin,
                   priceMax: result.priceMax,
@@ -68,11 +68,11 @@ class _FoodMenuScreenState extends State<FoodMenuScreen> {
     final filters = foodsProvider.filters;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      // backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Column(
           children: [
-            MenuHeader(
+            AppHeader(
               title: 'Food',
               trailing: IconButton(
                 onPressed: () => _openFilterSheet(context),
@@ -88,10 +88,9 @@ class _FoodMenuScreenState extends State<FoodMenuScreen> {
             Expanded(
               child:
                   foodsProvider.isLoading && foodsProvider.foods.isEmpty
-                      ? const LoadingIndicator(message: 'Loading menu...')
+                      ? const LoadingIndicator()
                       : ListView.builder(
                         controller: _controller,
-                        padding: const EdgeInsets.only(bottom: 20),
                         itemCount: foods.length,
                         itemBuilder: (context, index) {
                           final food = foods[index];
@@ -111,11 +110,12 @@ class _FoodMenuScreenState extends State<FoodMenuScreen> {
                                 );
                               },
                               child: Hero(
-                                tag: 'food-$index',
-                                child: FoodCard(
+                                tag: 'food-${food.id}',
+                                child: ProductCard(
+                                  id: food.id,
                                   image: food.image,
                                   name: food.name,
-                                  description: food.description,
+                                  title: food.description,
                                   price: food.price,
                                 ),
                               ),

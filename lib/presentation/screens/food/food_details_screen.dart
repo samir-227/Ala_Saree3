@@ -1,21 +1,22 @@
+import 'package:ala_saree3/core/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:ala_saree3/components/quantity_selector.dart';
 import 'package:ala_saree3/core/utils/app_snackbar.dart';
 import 'package:provider/provider.dart';
 
-import '../../../domain/entities/food.dart';
+import '../../../domain/entities/product.dart';
 import '../../controller/cart_provider.dart';
 import '../../controller/foods_provider.dart';
 import '../../controller/product_details_provider.dart';
-import 'widgets/add_to_cart_button.dart';
-import 'widgets/product_header.dart';
+import '../../../core/widgets/app_button.dart';
+import '../../../core/widgets/product_header.dart';
 import 'widgets/product_image_carousel.dart';
 import 'widgets/size_selector.dart';
 
 class FoodDetailsScreen extends StatefulWidget {
   const FoodDetailsScreen({super.key, required this.food});
 
-  final Food food;
+  final ProductEntity food;
 
   @override
   State<FoodDetailsScreen> createState() => _FoodDetailsScreenState();
@@ -27,7 +28,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
     sizeLabels: ProductDetailsProvider.foodSizeLabels,
   );
   double _currentPage = 0;
-  List<Food> _foods = [];
+  List<ProductEntity> _foods = [];
 
   @override
   void initState() {
@@ -35,7 +36,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
     _foods = context.read<FoodsProvider>().foods;
 
     int initialIndex = _foods.indexWhere((f) => f.id == widget.food.id);
-    if (initialIndex != -1) initialIndex = 0;
+    if (initialIndex == -1) initialIndex = 0;
 
     _currentPage = initialIndex.toDouble();
     _pageController = PageController(
@@ -92,7 +93,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
     if (_foods.isEmpty) {
       return Scaffold(
         backgroundColor: colorScheme.surface,
-        body: const Center(child: CircularProgressIndicator()),
+        body: LoadingIndicator(),
       );
     }
 
@@ -102,7 +103,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
     return ChangeNotifierProvider.value(
       value: _detailsProvider,
       child: Scaffold(
-        backgroundColor: colorScheme.surface,
+        // backgroundColor: colorScheme.surface,
         body: Stack(
           children: [
             Positioned(
@@ -142,7 +143,8 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                         quantity: detailsProvider.quantity,
                         onChanged: detailsProvider.setQuantity,
                       ),
-                      AddToCartButton(
+                      AppButton(
+                        text: 'Add to Cart',
                         onPressed: _onAddToCart,
                         enabled: detailsProvider.canAddToCart,
                       ),
