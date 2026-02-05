@@ -4,7 +4,6 @@ import '../../domain/entities/order.dart';
 import '../../domain/repositories/order_repository.dart' as domain;
 
 /// Provider for managing order state.
-/// Handles all order-related business logic and state management.
 class OrderProvider extends ChangeNotifier {
   OrderProvider({required domain.OrderRepository repository})
     : _repository = repository;

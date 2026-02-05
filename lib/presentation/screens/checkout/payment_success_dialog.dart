@@ -45,11 +45,7 @@ class PaymentSuccessDialog extends StatelessWidget {
             CircleAvatar(
               radius: 28,
               backgroundColor: AppColors.successBackground,
-              child: Icon(
-                Icons.check,
-                color: AppColors.successForeground,
-                size: 28,
-              ),
+              child: Icon(Icons.check, color: colorScheme.onSurface, size: 28),
             ),
             const SizedBox(height: 24),
             Center(
@@ -113,7 +109,7 @@ class PaymentSuccessDialog extends StatelessWidget {
                       context.go('${AppRouter.main}?tab=orders');
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: colorScheme.inverseSurface,
+                      backgroundColor: colorScheme.tertiary,
                       foregroundColor: colorScheme.onInverseSurface,
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(

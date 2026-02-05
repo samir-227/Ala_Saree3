@@ -35,7 +35,7 @@ class SizeSelector extends StatelessWidget {
             decoration: BoxDecoration(
               shape: useIcon ? BoxShape.circle : BoxShape.rectangle,
               borderRadius: useIcon ? null : BorderRadius.circular(22),
-              color: isSelected ? colorScheme.tertiary : colorScheme.surface,
+              color: isSelected ? colorScheme.tertiary : Colors.transparent,
               border: Border.all(
                 color:
                     isSelected ? colorScheme.tertiary : colorScheme.onSurface,

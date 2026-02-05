@@ -8,7 +8,6 @@ import 'widgets/cart_item_card.dart';
 import 'widgets/cart_total_footer.dart';
 import 'widgets/empty_cart_widget.dart';
 
-
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
@@ -33,7 +32,7 @@ class CartScreen extends StatelessWidget {
           items.isEmpty
               ? const EmptyCartWidget()
               : ListView.builder(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+                padding: EdgeInsets.fromLTRB(16, 16, 16, 100),
                 itemCount: items.length,
                 itemBuilder: (context, index) {
                   final item = items[index];

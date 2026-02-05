@@ -140,7 +140,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             min: 0,
             max: widget.maxPrice,
             divisions: (widget.maxPrice ~/ 5).clamp(1, 50),
-            activeColor: AppColors.tertiary,
+            activeColor: colorScheme.tertiary,
             onChanged: (v) {
               setState(() {
                 _priceMin = v.start;
@@ -181,8 +181,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           _category = v ? c : null;
                         });
                       },
-                      selectedColor: AppColors.tertiary.withValues(alpha: 0.3),
-                      checkmarkColor: AppColors.tertiary,
+                      selectedColor: colorScheme.tertiary.withValues(alpha: 0.3),
+                      checkmarkColor: colorScheme.tertiary,
                     );
                   }).toList(),
             ),
@@ -212,8 +212,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           _size = v ? s : null;
                         });
                       },
-                      selectedColor: AppColors.tertiary.withValues(alpha: 0.3),
-                      checkmarkColor: AppColors.tertiary,
+                      selectedColor: colorScheme.tertiary.withValues(alpha: 0.3),
+                      checkmarkColor: colorScheme.tertiary,
                     );
                   }).toList(),
             ),
@@ -222,7 +222,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           FilledButton(
             onPressed: _apply,
             style: FilledButton.styleFrom(
-              backgroundColor: AppColors.tertiary,
+              backgroundColor: Theme.of(context).colorScheme.tertiary,
               foregroundColor: colorScheme.onTertiary,
               padding: const EdgeInsets.symmetric(vertical: 14),
               shape: RoundedRectangleBorder(

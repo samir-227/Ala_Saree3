@@ -1,3 +1,5 @@
+import 'package:ala_saree3/core/widgets/app_header.dart';
+import 'package:ala_saree3/core/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -32,34 +34,25 @@ class _OrdersScreenState extends State<OrdersScreen> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: colorScheme.surface,
-        foregroundColor: colorScheme.onSurface,
-        title: const Text(
-          'My Orders',
-          style: TextStyle(fontWeight: FontWeight.w600),
-        ),
-        actions: [
-          if (orderProvider.isLoading)
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              ),
-            )
-          else
-            IconButton(
-              icon: const Icon(Icons.refresh),
-              onPressed: () => orderProvider.fetchOrders(),
-              tooltip: 'Refresh',
-            ),
-        ],
-      ),
       backgroundColor: colorScheme.surfaceContainerLow,
-      body: _buildBody(orderProvider, colorScheme),
+      body: SafeArea(
+        child: Column(
+          children: [
+            AppHeader(
+              title: 'My Orders',
+              trailing:
+                  orderProvider.isLoading
+                      ? const LoadingIndicator()
+                      : IconButton(
+                        icon: const Icon(Icons.refresh),
+                        onPressed: () => orderProvider.fetchOrders(),
+                        tooltip: 'Refresh',
+                      ),
+            ),
+            Expanded(child: _buildBody(orderProvider, colorScheme)),
+          ],
+        ),
+      ),
     );
   }
 

@@ -1,8 +1,5 @@
-import 'package:ala_saree3/presentation/screens/cart/cart_screen.dart';
+import 'package:ala_saree3/presentation/screens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
-import '../../../core/routing/app_router.dart';
 import '../drinks/drink_menu_screen.dart';
 import '../food/food_menu_screen.dart';
 import '../orders/orders_screen.dart';
@@ -26,11 +23,12 @@ class _MainScreenState extends State<MainScreen> {
     currentIndex = widget.initialTabIndex?.clamp(0, 2) ?? 0;
   }
 
-  final screens =  [
+  final screens = [
     DrinksMenuScreen(), // Drinks
     FoodMenuScreen(), // Food
     OrdersScreen(), // Orders
-    CartScreen(), // Cart
+
+    ProfileScreen(),
   ];
 
   @override
@@ -42,78 +40,84 @@ class _MainScreenState extends State<MainScreen> {
       extendBody: true,
       bottomNavigationBar: ClipRRect(
         borderRadius: BorderRadius.circular(30),
-        child: BottomNavigationBar(
-          currentIndex: currentIndex.clamp(0, 2),
-          onTap: (index) {
-            if (index == 3) {
-              context.push(AppRouter.cart);
-              return;
-            }
-            setState(() => currentIndex = index);
-          },
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          selectedItemColor: colorScheme.primary,
-          unselectedItemColor: colorScheme.onSurfaceVariant,
-          showSelectedLabels: true,
-          showUnselectedLabels: false,
-          selectedFontSize: 14,
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(
-              icon: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color:
-                      currentIndex == 0
-                          ? colorScheme.primaryContainer
-                          : Colors.transparent,
-                  borderRadius: BorderRadius.circular(15),
+        child: Container(
+          decoration: BoxDecoration(
+            color: colorScheme.surface,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: BottomNavigationBar(
+            currentIndex: currentIndex.clamp(0, 3),
+            onTap: (index) {
+              setState(() => currentIndex = index);
+            },
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            selectedItemColor: colorScheme.primary,
+            unselectedItemColor: colorScheme.onSurfaceVariant,
+            showSelectedLabels: true,
+            showUnselectedLabels: false,
+            selectedFontSize: 14,
+            type: BottomNavigationBarType.fixed,
+            items: [
+              BottomNavigationBarItem(
+                icon: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color:
+                        currentIndex == 0
+                            ? colorScheme.primaryContainer
+                            : Colors.transparent,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: const Icon(Icons.local_cafe, size: 20),
                 ),
-                child: const Icon(Icons.local_cafe, size: 20),
+                label: 'Drinks',
               ),
-              label: 'Drinks',
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color:
-                      currentIndex == 1
-                          ? colorScheme.primaryContainer
-                          : Colors.transparent,
-                  borderRadius: BorderRadius.circular(15),
+              BottomNavigationBarItem(
+                icon: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color:
+                        currentIndex == 1
+                            ? colorScheme.primaryContainer
+                            : Colors.transparent,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: const Icon(Icons.fastfood, size: 20),
                 ),
-                child: const Icon(Icons.fastfood, size: 20),
+                label: 'Food',
               ),
-              label: 'Food',
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color:
-                      currentIndex == 2
-                          ? colorScheme.primaryContainer
-                          : Colors.transparent,
-                  borderRadius: BorderRadius.circular(15),
+              BottomNavigationBarItem(
+                icon: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color:
+                        currentIndex == 2
+                            ? colorScheme.primaryContainer
+                            : Colors.transparent,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: const Icon(Icons.receipt_long, size: 20),
                 ),
-                child: const Icon(Icons.receipt_long, size: 20),
+                label: 'Orders',
               ),
-              label: 'Orders',
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(15),
+
+              BottomNavigationBarItem(
+                icon: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color:
+                        currentIndex == 3
+                            ? colorScheme.primaryContainer
+                            : Colors.transparent,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: const Icon(Icons.person, size: 20),
                 ),
-                child: Image.asset('assets/cart.png', width: 20, height: 20),
+                label: 'Profile',
               ),
-              label: 'Cart',
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

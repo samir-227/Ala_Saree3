@@ -1,3 +1,4 @@
+import 'package:ala_saree3/core/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -47,7 +48,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       backgroundColor: colorScheme.surfaceContainerLow,
       body:
           orderProvider.isLoading && orderProvider.orders.isEmpty
-              ? const Center(child: CircularProgressIndicator())
+              ? LoadingIndicator()
               : SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(

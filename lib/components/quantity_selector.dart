@@ -14,25 +14,18 @@ class QuantitySelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 8),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(40),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _button("-", () {
-            if (quantity > 1) onChanged(quantity - 1);
-          }),
-          Text(
-            "$quantity",
-            style: TextStyle(fontSize: 24, color: colorScheme.tertiary),
-          ),
-          _button("+", () => onChanged(quantity + 1)),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _button("-", () {
+          if (quantity > 1) onChanged(quantity - 1);
+        }),
+        Text(
+          "$quantity",
+          style: TextStyle(fontSize: 24, color: colorScheme.tertiary),
+        ),
+        _button("+", () => onChanged(quantity + 1)),
+      ],
     );
   }
 

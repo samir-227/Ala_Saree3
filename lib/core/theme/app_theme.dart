@@ -14,7 +14,7 @@ abstract final class AppTheme {
     final base = ThemeData.light(useMaterial3: true);
     return base.copyWith(
       colorScheme: AppColors.light,
-      scaffoldBackgroundColor: AppColors.light.surface,
+      scaffoldBackgroundColor: AppColors.light.surfaceContainerLow,
       useMaterial3: true,
       // Add more overrides here (e.g. appBarTheme, cardTheme, inputDecorationTheme).
       appBarTheme: AppBarTheme(

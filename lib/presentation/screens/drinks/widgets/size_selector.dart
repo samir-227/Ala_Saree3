@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 class SizeSelector extends StatelessWidget {
   const SizeSelector({
     super.key,
@@ -35,8 +34,7 @@ class SizeSelector extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color:
-                      isSelected ? colorScheme.tertiary : colorScheme.surface,
+                  color: isSelected ? colorScheme.tertiary : Colors.transparent,
                   border: Border.all(
                     color:
                         isSelected
