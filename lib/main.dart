@@ -1,18 +1,18 @@
+import 'package:ala_saree3/core/di/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
-import 'data/repositories/drinks_repository.dart';
-import 'data/repositories/foods_repository.dart';
-import 'data/repositories/order_repository.dart';
 import 'presentation/controller/cart_provider.dart';
 import 'presentation/controller/drinks_provider.dart';
 import 'presentation/controller/foods_provider.dart';
 import 'presentation/controller/order_provider.dart';
 import 'presentation/controller/theme_provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupServiceLocator();
   runApp(const AlaSaree3());
 }
 
@@ -21,26 +21,15 @@ class AlaSaree3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Dependency injection: Create repository implementations
-    final drinksRepository = DrinksRepositoryImpl();
-    final foodsRepository = FoodsRepositoryImpl();
-    final orderRepository = OrderRepositoryImpl();
-
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => sl<ThemeProvider>()),
         ChangeNotifierProvider(
-          create:
-              (_) => DrinksProvider(repository: drinksRepository)..loadDrinks(),
+          create: (_) => sl<DrinksProvider>()..loadDrinks(),
         ),
-        ChangeNotifierProvider(create: (_) => CartProvider()),
-        ChangeNotifierProvider(
-          create:
-              (_) => FoodsProvider(repository: foodsRepository)..loadFoods(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => OrderProvider(repository: orderRepository),
-        ),
+        ChangeNotifierProvider(create: (_) => sl<CartProvider>()),
+        ChangeNotifierProvider(create: (_) => sl<FoodsProvider>()..loadFoods()),
+        ChangeNotifierProvider(create: (_) => sl<OrderProvider>()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, _) {

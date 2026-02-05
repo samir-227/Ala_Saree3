@@ -18,7 +18,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    // Fetch order details when screen is first loaded
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<OrderProvider>().getOrderById(widget.orderId);
     });
@@ -29,7 +28,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     final orderProvider = context.watch<OrderProvider>();
     final colorScheme = Theme.of(context).colorScheme;
 
-    // Try to find order in the list first (faster)
     final order = orderProvider.orders.firstWhere(
       (o) => o.id == widget.orderId,
       orElse: () => throw StateError('Order not found'),
@@ -48,19 +46,16 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       backgroundColor: colorScheme.surfaceContainerLow,
       body:
           orderProvider.isLoading && orderProvider.orders.isEmpty
-              ? LoadingIndicator()
+              ? const LoadingIndicator()
               : SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Order Status Indicator
                     OrderStatusIndicator(status: order.orderStatus),
                     const SizedBox(height: 24),
-                    // Order Items
                     _buildOrderItemsSection(order, colorScheme),
                     const SizedBox(height: 24),
-                    // Order Summary
                     _buildOrderSummary(order, colorScheme),
                   ],
                 ),
@@ -73,7 +68,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: colorScheme.outline.withOpacity(0.2), width: 1),
+        side: BorderSide(color: colorScheme.outline.withOpacity(0.2)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -89,79 +84,94 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            ...order.items.map(
-              (item) => Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.asset(
-                        item.product.image,
-                        width: 60,
-                        height: 60,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Container(
-                            width: 60,
-                            height: 60,
-                            color: colorScheme.surfaceContainerHighest,
-                            child: Icon(
-                              Icons.image_not_supported,
-                              color: colorScheme.onSurfaceVariant,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.product.name,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'Size: ${item.sizeLabel}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: colorScheme.onSurfaceVariant,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'Quantity: ${item.quantity}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: colorScheme.onSurfaceVariant,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      '£${item.totalPrice.toStringAsFixed(2)}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: colorScheme.onSurface,
-                      ),
-                    ),
+
+            /// items + dividers
+            ...List.generate(order.items.length, (index) {
+              final item = order.items[index];
+
+              return Column(
+                children: [
+                  _buildOrderItemRow(item, colorScheme),
+
+                  if (index != order.items.length - 1) ...[
+                    const SizedBox(height: 12),
+                    Divider(),
+                    const SizedBox(height: 12),
                   ],
-                ),
-              ),
-            ),
+                ],
+              );
+            }),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildOrderItemRow(item, ColorScheme colorScheme) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image.asset(
+            item.product.image,
+            width: 50,
+            height: 100,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                width: 50,
+                height: 100,
+                color: colorScheme.surfaceContainerHighest,
+                child: Icon(
+                  Icons.image_not_supported,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              );
+            },
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                item.product.name,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: colorScheme.onSurface,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Size: ${item.sizeLabel}',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Quantity: ${item.quantity}',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Text(
+          '£${item.totalPrice.toStringAsFixed(2)}',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: colorScheme.onSurface,
+          ),
+        ),
+      ],
     );
   }
 
@@ -170,7 +180,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: colorScheme.outline.withOpacity(0.2), width: 1),
+        side: BorderSide(color: colorScheme.outline.withOpacity(0.2)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -185,7 +195,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 color: colorScheme.onSurface,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -203,7 +213,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               ],
             ),
             const SizedBox(height: 8),
-            const Divider(),
+            Divider(),
             const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

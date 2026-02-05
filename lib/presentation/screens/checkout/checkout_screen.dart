@@ -156,7 +156,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     phone: _phone ?? '(786) 713-8616',
                     onAddPressed: _onAddAddressPressed,
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
                   const SectionTitle('SHIPPING METHOD'),
                   const SizedBox(height: 8),
                   PillRow(
@@ -174,7 +174,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       );
                     },
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
                   const SectionTitle('PAYMENT METHOD'),
                   const SizedBox(height: 8),
                   PillRow(
@@ -184,23 +184,33 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       context.push(AppRouter.addCard);
                     },
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 8),
                   const Divider(),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
                   // Order summary (simple)
                   ...items.map((item) => CheckoutItemCard(item: item)),
                   const SizedBox(height: 24),
                   CheckoutTotalRow(totalPrice: cart.totalPrice),
-                  const SizedBox(height: 80),
+                  const SizedBox(height: 24),
+                  AppButton(
+                    onPressed: () async {
+                      await _placeOrder(context);
+                    },
+                    text: 'PLACE ORDER',
+                    enabled: items.isNotEmpty,
+                  ),
                 ],
               ),
-      bottomNavigationBar: AppButton(
-        onPressed: () async {
-          await _placeOrder(context);
-        },
-        text: 'PLACE ORDER',
-        enabled: items.isNotEmpty,
-      ),
+      // bottomNavigationBar: SizedBox(
+      //   width: 150,
+      //   child: AppButton(
+      //     onPressed: () async {
+      //       await _placeOrder(context);
+      //     },
+      //     text: 'PLACE ORDER',
+      //     enabled: items.isNotEmpty,
+      //   ),
+      // ),
     );
   }
 }
